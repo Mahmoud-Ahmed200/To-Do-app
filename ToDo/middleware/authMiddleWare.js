@@ -1,13 +1,31 @@
 const jwt = require("jsonwebtoken");
+const users = require("../modules/users.module");
 const authValidator = (req, res, next) => {
-  const token = req.cookie.token;
-  if (token) {
-    jwt.verify(token, "temporary secret key", (decodedToken, err) => {
+  const tok = req.cookies.token;
+  if (tok) {
+    jwt.verify(tok, "temporary secret key", async (err, decodedtoken) => {
       if (err) res.status(401).json({ error: err.message });
       else {
-        res.status(201);
         next();
       }
     });
-  } else res.status(401).json({ message: "redirecting to login page" });
+  } else res.status(401).json({ error: "Failed authentication" });
 };
+const checkUser = (req, res, next) => {
+  const tok = req.cookies.token;
+  if (tok) {
+    const check = jwt.verify(
+      tok,
+      "temporary secret key",
+      async (error, decodedToken) => {
+        if (error) res.status(401).json({ error: error.message });
+        else {
+          const user = await users.findOne({ _id: decodedToken.id });
+          req.user = user;
+          next();
+        }
+      }
+    );
+  } else res.status(401).json({ error: "Failed authentication" });
+};
+module.exports = { authValidator, checkUser };

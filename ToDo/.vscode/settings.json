@@ -1,3 +1,4 @@
 {
-  "cSpell.ignoreWords": ["bycrypt", "cookieparser", "maxlength", "testhg"]
+  "cSpell.ignoreWords": ["bycrypt", "cookieparser", "maxlength", "testhg"],
+  "cSpell.words": ["decodedtoken"]
 }

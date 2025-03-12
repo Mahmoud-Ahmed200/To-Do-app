@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     required: true,
     unique: true,
     validate: isEmail,
+    trim: true,
   },
   password: {
     type: String,
@@ -17,7 +18,14 @@ const userSchema = mongoose.Schema({
     required: true,
     unique: true,
     maxlength: 18,
+    trim: true,
   },
+  todo: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "todo",
+    },
+  ],
 });
 userSchema.pre("save", async function (next) {
   const salt = await bycrypt.genSalt();
