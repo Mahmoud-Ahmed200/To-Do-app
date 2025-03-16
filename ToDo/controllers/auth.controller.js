@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const cookieparser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const createToken = (id) => {
-  return jwt.sign({ id }, "temporary secret key", {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: 60 * 60 * 24,
   });
 };

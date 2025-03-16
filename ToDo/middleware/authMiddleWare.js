@@ -3,7 +3,7 @@ const users = require("../modules/users.module");
 const authValidator = (req, res, next) => {
   const tok = req.cookies.token;
   if (tok) {
-    jwt.verify(tok, "temporary secret key", async (err, decodedtoken) => {
+    jwt.verify(tok, process.env.JWT_SECRET, async (err, decodedtoken) => {
       if (err) res.status(401).json({ error: err.message });
       else {
         next();
@@ -16,7 +16,7 @@ const checkUser = (req, res, next) => {
   if (tok) {
     const check = jwt.verify(
       tok,
-      "temporary secret key",
+      process.env.JWT_SECRET,
       async (error, decodedToken) => {
         if (error) res.status(401).json({ error: error.message });
         else {

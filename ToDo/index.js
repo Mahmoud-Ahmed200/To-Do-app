@@ -1,4 +1,6 @@
 const express = require("express");
+require("dotenv").config();
+const dbUrl = process.env.DB_URL;
 const cookieparser = require("cookie-parser");
 const { dbConnect } = require("./db/dbConnection");
 const authRouter = require("./routes/auth.router");
